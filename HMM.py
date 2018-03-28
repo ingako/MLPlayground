@@ -33,7 +33,7 @@ def HMM(p, pi, b, y):
     
     best = 0
     x = np.zeros(shape=(1, n))
-	# Find the final state in the most likely sequence x(n)
+    # Find the final state in the most likely sequence x(n)
     for k in range(0, 26):
         if best <= gamma[k][n - 1]:
             best = gamma[k][n - 1]

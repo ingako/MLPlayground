@@ -14,7 +14,7 @@ import numpy as np
 def constructEmissions(pr_correct, adj):
     b = np.zeros(shape=(26, 26))
     for i in range(0, 26):
-        p = pr_correct / sum(adj[i])
+        p = (1 - pr_correct) / sum(adj[i])
         for j in range(0, 26):
             if i == j:
                 b[i][j] = pr_correct
