@@ -31,6 +31,9 @@ class LinearRegression:
         J = 1/(2*m) * np.sum(np.square(np.dot(X, self.theta) - y))
         return J
 
+    def normalize(self, X):
+        mu, sigma = np.mean(X, axis=0), np.std(X, axis=0)
+        return (X - mu) / sigma
 
 if __name__ == "__main__":
 
