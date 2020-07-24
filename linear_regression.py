@@ -18,13 +18,13 @@ class LinearRegression:
 
     def _gradient_descent(self, X, y, num_iters):
         m = y.shape[0]
-        heta = self.theta.copy()
+        J_history = []
 
         for i in range(num_iters):
             self.theta = self.theta - self.alpha / m * (np.dot(X, self.theta) - y).dot(X)
-            self._compute_cost(X, y)
+            J_history.append(self._compute_cost(X, y))
 
-        return self.theta
+        return self.theta, J_history
 
     def _compute_cost(self, X, y):
         m = y.size
@@ -45,17 +45,26 @@ if __name__ == "__main__":
     alpha = 0.01
 
     model = LinearRegression(alpha, X.shape[1])
-    theta = model.partial_fit(X ,y, iterations)
+    theta, J_history  = model.partial_fit(X ,y, iterations)
 
     expected_theta = [-3.6303, 1.1664]
     for i in range(theta.size):
         assert(round(theta[i], 4) == expected_theta[i])
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(12, 5))
+    ax = fig.add_subplot(121)
+
+    # Plot data and the fitted line
+    ax.plot(X[:, 1], y, 'ro', ms=10, mec='r')
+    ax.plot(X[:, 1], model.predict(X), '-')
     plt.ylabel('Profit in $10,000')
     plt.xlabel('Population of City in 10,000s')
-
-    plt.plot(X[:, 1], y, 'ro', ms=10, mec='r')
-    plt.plot(X[:, 1], model.predict(X), '-')
     plt.legend(['Training data', 'Linear regression']);
+
+    # Plot the convergence graph
+    ax = fig.add_subplot(122)
+    ax.plot(np.arange(len(J_history)), J_history, lw=2)
+    plt.xlabel('Number of iterations')
+    plt.ylabel('Cost J')
+
     plt.show()
